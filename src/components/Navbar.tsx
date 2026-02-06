@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import logoBlack from '@/assets/logo-black.png';
+import logoWhite from '@/assets/logo-white.png';
 
 const navLinks = [
   { href: '#about', label: 'About' },
   { href: '#trips', label: 'Trips' },
   { href: '#testimonials', label: 'Stories' },
   { href: '#join', label: 'Join Us' },
+  { href: '/members', label: 'Team', isPage: true },
 ];
 
 export const Navbar = () => {
@@ -21,10 +25,19 @@ export const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
+
   const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (href.startsWith('#')) {
+      if (!isHomePage) {
+        window.location.href = '/' + href;
+        return;
+      }
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
     setIsMobileMenuOpen(false);
   };
@@ -44,27 +57,42 @@ export const Navbar = () => {
         <div className="container-custom">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <a 
-              href="#" 
-              className="font-heading text-2xl font-bold tracking-wider"
-              onClick={(e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+            <Link 
+              to="/"
+              className="block"
+              onClick={() => {
+                if (isHomePage) {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
               }}
             >
-              VELOCE
-            </a>
+              <img 
+                src={isScrolled ? logoBlack : logoBlack} 
+                alt="RUBO" 
+                className="h-10 w-auto"
+              />
+            </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-10">
               {navLinks.map((link) => (
-                <button
-                  key={link.href}
-                  onClick={() => scrollToSection(link.href)}
-                  className="nav-link text-foreground hover:text-muted-foreground"
-                >
-                  {link.label}
-                </button>
+                'isPage' in link && link.isPage ? (
+                  <Link
+                    key={link.href}
+                    to={link.href}
+                    className="nav-link text-foreground hover:text-muted-foreground"
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <button
+                    key={link.href}
+                    onClick={() => scrollToSection(link.href)}
+                    className="nav-link text-foreground hover:text-muted-foreground"
+                  >
+                    {link.label}
+                  </button>
+                )
               ))}
             </div>
 
@@ -92,16 +120,33 @@ export const Navbar = () => {
           >
             <div className="container-custom flex flex-col gap-8">
               {navLinks.map((link, index) => (
-                <motion.button
-                  key={link.href}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  onClick={() => scrollToSection(link.href)}
-                  className="text-3xl font-heading font-bold uppercase tracking-wide text-left"
-                >
-                  {link.label}
-                </motion.button>
+                'isPage' in link && link.isPage ? (
+                  <motion.div
+                    key={link.href}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <Link
+                      to={link.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="text-3xl font-heading font-bold uppercase tracking-wide text-left block"
+                    >
+                      {link.label}
+                    </Link>
+                  </motion.div>
+                ) : (
+                  <motion.button
+                    key={link.href}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    onClick={() => scrollToSection(link.href)}
+                    className="text-3xl font-heading font-bold uppercase tracking-wide text-left"
+                  >
+                    {link.label}
+                  </motion.button>
+                )
               ))}
             </div>
           </motion.div>
