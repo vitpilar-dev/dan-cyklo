@@ -26,9 +26,9 @@ export const AboutSection = () => {
             </h2>
             <div className="space-y-6 text-body-lg text-muted-foreground">
               <p>
-                VELOCE is not a cycling club. It's a brotherhood forged in the 
+                Ruby is not a cycling club. It's a brotherhood forged in the 
                 crucible of mountain passes and endless kilometers. We seek out 
-                the roads that break you—because that's where you find yourself.
+                the roads that break you because that's where you find yourself.
               </p>
               <p>
                 Every climb is a battle. Every descent, a reward. We embrace the 
