@@ -6,36 +6,39 @@
 
 @layer base {
   :root {
-    /* Strict Black & White Design System */
+    /* Navy Blue & White Design System */
+    /* Switch to black: change --navy to 0 0% 0% */
+    --navy: 209 100% 10%;
+    
     --background: 0 0% 100%;
-    --foreground: 0 0% 0%;
+    --foreground: var(--navy);
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 0%;
+    --card-foreground: var(--navy);
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%;
+    --popover-foreground: var(--navy);
 
-    --primary: 0 0% 0%;
+    --primary: var(--navy);
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 95%;
-    --secondary-foreground: 0 0% 0%;
+    --secondary: 210 20% 96%;
+    --secondary-foreground: var(--navy);
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 40%;
+    --muted: 210 15% 96%;
+    --muted-foreground: 210 10% 40%;
 
-    --accent: 0 0% 20%;
+    --accent: 209 80% 20%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 0% 30%;
+    --destructive: 0 70% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 0 0% 0%;
+    --border: 210 15% 90%;
+    --input: 210 15% 90%;
+    --ring: var(--navy);
 
-    --radius: 0rem;
+    --radius: 0.25rem;
 
     /* Custom properties */
     --font-heading: 'Oswald', sans-serif;
@@ -43,29 +46,29 @@
   }
 
   .dark {
-    --background: 0 0% 0%;
+    --background: var(--navy);
     --foreground: 0 0% 100%;
 
-    --card: 0 0% 5%;
+    --card: 209 100% 8%;
     --card-foreground: 0 0% 100%;
 
-    --popover: 0 0% 5%;
+    --popover: 209 100% 8%;
     --popover-foreground: 0 0% 100%;
 
     --primary: 0 0% 100%;
-    --primary-foreground: 0 0% 0%;
+    --primary-foreground: var(--navy);
 
-    --secondary: 0 0% 15%;
+    --secondary: 209 50% 15%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 65%;
+    --muted: 209 50% 15%;
+    --muted-foreground: 210 15% 65%;
 
-    --accent: 0 0% 85%;
-    --accent-foreground: 0 0% 0%;
+    --accent: 209 60% 85%;
+    --accent-foreground: var(--navy);
 
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
+    --border: 209 50% 20%;
+    --input: 209 50% 20%;
     --ring: 0 0% 100%;
   }
 }
@@ -91,7 +94,18 @@
 }
 
 @layer components {
-  /* Hero Button Variants */
+  .btn-primary {
+    @apply inline-block px-8 py-3 text-sm font-semibold tracking-widest uppercase transition-all duration-300;
+    @apply bg-primary text-primary-foreground border-2 border-primary;
+    @apply hover:bg-transparent hover:text-primary;
+  }
+
+  .btn-outline {
+    @apply inline-block px-8 py-3 text-sm font-semibold tracking-widest uppercase transition-all duration-300;
+    @apply bg-transparent text-primary border-2 border-primary;
+    @apply hover:bg-primary hover:text-primary-foreground;
+  }
+
   .btn-hero {
     @apply inline-block px-10 py-4 text-sm font-semibold tracking-widest uppercase transition-all duration-300;
     @apply bg-primary text-primary-foreground border-2 border-primary;
@@ -104,31 +118,6 @@
     @apply hover:bg-primary-foreground hover:text-primary;
   }
 
-  /* Inverted Card Effect */
-  .card-invert {
-    @apply relative overflow-hidden transition-all duration-500;
-  }
-  
-  .card-invert::before {
-    content: '';
-    @apply absolute inset-0 bg-primary transition-transform duration-500 origin-bottom;
-    transform: scaleY(0);
-    z-index: 1;
-  }
-
-  .card-invert:hover::before {
-    transform: scaleY(1);
-  }
-
-  .card-invert:hover .card-invert-text {
-    @apply text-primary-foreground;
-  }
-
-  .card-invert-content {
-    @apply relative z-10;
-  }
-
-  /* Navigation Link */
   .nav-link {
     @apply relative text-sm font-medium tracking-widest uppercase transition-colors duration-300;
   }
@@ -144,25 +133,16 @@
     transform: scaleX(1);
   }
 
-  /* Parallax Container */
-  .parallax-bg {
-    @apply absolute inset-0 bg-cover bg-center bg-no-repeat;
-    will-change: transform;
-  }
-
-  /* Section Padding */
   .section-padding {
     @apply py-24 md:py-32 lg:py-40;
   }
 
-  /* Container */
   .container-custom {
     @apply max-w-7xl mx-auto px-6 md:px-8 lg:px-12;
   }
 }
 
 @layer utilities {
-  /* Text Utilities */
   .text-display {
     font-family: var(--font-heading);
     @apply text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold uppercase tracking-tighter leading-none;
@@ -181,67 +161,30 @@
   .text-body-lg {
     @apply text-lg md:text-xl leading-relaxed;
   }
-
-  /* Animation Utilities */
-  .animate-slide-up {
-    animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  .animate-fade-in {
-    animation: fadeIn 0.6s ease-out forwards;
-  }
-
-  .animate-scale-in {
-    animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
 }
 
 /* Keyframe Animations */
 @keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(60px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(60px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
-
 ::-webkit-scrollbar-track {
   @apply bg-secondary;
 }
-
 ::-webkit-scrollbar-thumb {
   @apply bg-primary;
 }
 
-/* Selection */
 ::selection {
   @apply bg-primary text-primary-foreground;
 }
